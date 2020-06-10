@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <launch>
   <node name="jackal_joy" pkg="jackal_joy" type="jackal_joy.py" >
+    <param name="joy_topic"     value="bluetooth_teleop/joy" />
+    <param name="cmd_vel_topic" value="joy_button/cmd_vel" />
     <param name="linear_speed"  value="0.1" />
     <param name="angular_speed" value="0.628" /> 
   </node>

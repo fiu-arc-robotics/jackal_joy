@@ -10,16 +10,18 @@ class RosNode:
         rospy.init_node("JackalJoyNode")
         
         # Get launch file params
-        self.linear_speed = rospy.get_param("~linear_speed")
+        self.linear_speed =  rospy.get_param("~linear_speed")
         self.angular_speed = rospy.get_param("~angular_speed")
+        self.joy_topic =     rospy.get_param("~joy_topic")
+        self.cmd_vel_topic = rospy.get_param("~cmd_vel_topic")
         # Private variables
         self._has_new_input = False
         # Set Class Params
-        self.sub_joy = rospy.Subscriber("ps3/joy",
+        self.sub_joy = rospy.Subscriber(self.joy_topic,
                                         Joy,
                                         self.callback,
                                         queue_size=10)
-        self.pub_cmd_vel = rospy.Publisher("button/cmd_vel", Twist, queue_size=10)
+        self.pub_cmd_vel = rospy.Publisher(self.cmd_vel_topic, Twist, queue_size=10)
         rospy.spin()
     
     def callback(self, msg):
@@ -27,11 +29,11 @@ class RosNode:
         
     def button_control(self, msg):
         cmd_vel = Twist()
-        up    = msg.buttons[0]
-        down  = msg.buttons[1]
-        left  = msg.buttons[2]
-        right = msg.buttons[3]
-        uldr  = [up,down,left,right]
+        up    = msg.buttons[4]
+        left  = msg.buttons[5]
+        down  = msg.buttons[6]
+        right = msg.buttons[7]
+        uldr  = [up,left,down,right]
         
         if hasTrue(uldr):
             cmd_vel.linear.x = self.linear_speed * (up - down)
