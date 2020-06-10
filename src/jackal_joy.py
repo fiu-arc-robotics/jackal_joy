@@ -37,7 +37,7 @@ class RosNode:
         
         if hasTrue(uldr):
             cmd_vel.linear.x = self.linear_speed * (up - down)
-            cmd_vel.angular.z = self.angular_speed * (left - right)
+            cmd_vel.angular.z = self.angular_speed * (right - left)
             self._has_new_input = True
             self.pub_cmd_vel.publish(cmd_vel)
         elif self._has_new_input:
