@@ -3,6 +3,7 @@
 import rospy
 from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
+from std_msgs.msg import Bool
 
 
 class RosNode:
@@ -22,12 +23,14 @@ class RosNode:
                                         self.callback,
                                         queue_size=10)
         self.pub_cmd_vel = rospy.Publisher(self.cmd_vel_topic, Twist, queue_size=10)
+        self.pub_start_stop = rospy.Publisher("start_stop", Bool, queue_size=10)
         rospy.spin()
     
     def callback(self, msg):
-        self.button_control(msg)
+        self.dpad_control(msg)
+        self.start_stop(msg)
         
-    def button_control(self, msg):
+    def dpad_control(self, msg):
         cmd_vel = Twist()
         up    = msg.buttons[4]
         left  = msg.buttons[5]
@@ -45,6 +48,18 @@ class RosNode:
             self.pub_cmd_vel.publish(cmd_vel)
         else:
             pass
+        
+    def start_stop(self, msg):
+        start_stop = Bool()
+        x = msg.buttons[unk]
+        o = msg.buttons[unk]
+        if x or o is True:
+            if x is True:
+                start_stop.data = 1
+            elif o is True:
+                start_stop.data = 0
+            self.pub_start_stop.publish(start_stop)
+        
         
 def hasTrue(mylist):
     for item in mylist:
