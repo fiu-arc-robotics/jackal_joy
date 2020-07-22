@@ -51,17 +51,16 @@ class RosNode:
         
     def start_stop(self, msg):
         start_stop = Bool()
-	t = msg.buttons[13]
-        o = msg.buttons[14]
-        x = msg.buttons[15]
-	s = msg.buttons[16]
-        if x or o is True:
-            if x is True:
-                start_stop.data = 1
-            elif o is True:
-                start_stop.data = 0
+	t = msg.buttons[12]
+        o = msg.buttons[13]
+        x = msg.buttons[14]
+	s = msg.buttons[15]
+        if x == True:
+	    start_stop.data = True
             self.pub_start_stop.publish(start_stop)
-        
+        elif o == True:
+            start_stop.data = False
+            self.pub_start_stop.publish(start_stop)
         
 def hasTrue(mylist):
     for item in mylist:
