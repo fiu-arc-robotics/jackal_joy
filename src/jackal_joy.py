@@ -51,8 +51,10 @@ class RosNode:
         
     def start_stop(self, msg):
         start_stop = Bool()
-        x = msg.buttons[unk]
-        o = msg.buttons[unk]
+	t = msg.buttons[13]
+        o = msg.buttons[14]
+        x = msg.buttons[15]
+	s = msg.buttons[16]
         if x or o is True:
             if x is True:
                 start_stop.data = 1
